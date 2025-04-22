@@ -21,7 +21,11 @@ def detect(img, faceCascade, eyeCascade):
     coords, _ = draw_bound(img, faceCascade, 1.2 , 14, color["blue"], "Face")
 
     faceCount = len(coords)
-    cv2.putText(img, f"Face: {faceCount}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color["red"], 1, cv2.LINE_AA)
+    if faceCount >= 2:
+        cv2.putText(img, "ALERT: Multiple faces detected!", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2, cv2.LINE_AA)
+        print("Privacy Alert: More than one face detected.")
+    else:
+        cv2.putText(img, f"Face: {faceCount}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color["red"], 1, cv2.LINE_AA)
 
     if coords:
         # Detect eyes
@@ -46,7 +50,7 @@ if faceCascade.empty():
 print(faceCascade)
 
 # Default webcam
-video_cam = cv2.VideoCapture(1)
+video_cam = cv2.VideoCapture(0) # 1 for Phone, 0 for Webcam
 
 while True:
     _, img = video_cam.read()
