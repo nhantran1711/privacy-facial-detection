@@ -31,15 +31,16 @@ pip install opencv-python
 Make sure your .xml cascade files are in the correct data/raw path.
 
 Then run:
+```bash
 python facial_reg.py
-
+```
 Press q to quit the webcam stream.
 
 ### 📷 Camera Settings
 If your default camera doesn't work, change:
-
+```bash
 video_cam = cv2.VideoCapture(0)  # Try 1 or 2 if 0 doesn't work
-
+```
 ### 🔒 Privacy Alert
 When the system detects two or more faces, a red warning appears on the screen and is also printed to the terminal:
 
