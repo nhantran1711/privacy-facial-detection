@@ -54,6 +54,7 @@ video_cam = cv2.VideoCapture(0) # 1 for Phone, 0 for Webcam
 
 while True:
     _, img = video_cam.read()
+    video_cam.set(cv2.CAP_PROP_FPS, 60)
     img = detect(img, faceCascade, eyeCascade)
     cv2.imshow("facial detecion", img)
 
