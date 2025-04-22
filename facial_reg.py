@@ -7,22 +7,31 @@ def draw_bound(img, classifer, scaleFactor, minNeighbor, color, text):
     for (x, y, w, h) in features:
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
         cv2.putText(img, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 1, cv2.LINE_AA) # Text on top y - 5
-        coords = [x, y, w, h]
+        coords.append((x, y, w, h))
 
-
-    return coords
+    return coords, img
     
 def detect(img, faceCascade, eyeCascade):
     color =  {"blue" : (255, 0, 0),
            "red" : (0, 0, 255),
            "green" : (0, 255, 0)
            }
-    coords = draw_bound(img, faceCascade, 1.2 , 14, color["blue"], "Face")
+    
+    # Detect faces
+    coords, _ = draw_bound(img, faceCascade, 1.2 , 14, color["blue"], "Face")
 
-    if len(coords) == 4:
-        x, y, w, h = coords
-        cropped = img[y:y + h, x:x + w]
-        coords = draw_bound(cropped, eyeCascade, 1.1 , 20, color["green"], "Eyes")    
+    faceCount = len(coords)
+    cv2.putText(img, f"Face: {faceCount}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color["red"], 1, cv2.LINE_AA)
+
+    if coords:
+        # Detect eyes
+        for (x, y, w, h) in coords:
+            cropped = img[y:y + h, x:x + w]
+            _, croppedEyes = draw_bound(cropped, eyeCascade, 1.1, 20, color["green"], "Eye")
+            
+            # Paste back into the main
+            img[y:y + h, x:x + w] = croppedEyes
+
     return img
 
 
