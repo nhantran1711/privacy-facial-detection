@@ -6,28 +6,42 @@ def draw_bound(img, classifer, scaleFactor, minNeighbor, color, text):
     coords = []
     for (x, y, w, h) in features:
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-        cv2.putText(img, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 1, cv2.LINE_AA) # Text on top y - 5
+        cv2.putText(img, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 1, cv2.LINE_AA) # Text on top y - 5
         coords = [x, y, w, h]
 
-    return coords, img
+
+    return coords
     
-def detect(img, faceCassade):
+def detect(img, faceCascade, eyeCascade):
     color =  {"blue" : (255, 0, 0),
            "red" : (0, 0, 255),
            "green" : (0, 255, 0)
            }
-    coords, img = draw_bound(img, faceCassade, 1.2 , 12, color["blue"], "Face")
+    coords = draw_bound(img, faceCascade, 1.2 , 14, color["blue"], "Face")
+
+    if len(coords) == 4:
+        x, y, w, h = coords
+        cropped = img[y:y + h, x:x + w]
+        coords = draw_bound(cropped, eyeCascade, 1.1 , 20, color["green"], "Eyes")    
     return img
 
-faceCassade = cv2.CascadeClassifier("./data/raw/haarcascade_frontalface_default.xml")
-print(faceCassade)
+
+
+faceCascade = cv2.CascadeClassifier("./data/raw/haarcascade_frontalface_default.xml")
+eyeCascade = cv2.CascadeClassifier("./data/raw/rawDataEye.xml")
+
+# Error Handling
+if faceCascade.empty():
+    raise IOError("Failed to load face cascade classifier.")
+
+print(faceCascade)
 
 # Default webcam
-video_cam = cv2.VideoCapture(0)
+video_cam = cv2.VideoCapture(1)
 
 while True:
     _, img = video_cam.read()
-    img = detect(img, faceCassade)
+    img = detect(img, faceCascade, eyeCascade)
     cv2.imshow("facial detecion", img)
 
     # Loop breaking
