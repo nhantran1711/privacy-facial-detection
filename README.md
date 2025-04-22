@@ -56,7 +56,4 @@ When the system detects two or more faces, a red warning appears on the screen a
  Email or notification on privacy breach
 
  
----
-
-Let me know if you want me to customize it further — like adding GIFs, usage images, or linking to your GitHub profile.
 
