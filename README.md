@@ -6,10 +6,10 @@ This is a Python-based real-time facial detection system using OpenCV. It detect
 
 ## Features
 
-- 🔍 Real-time face and eye detection using Haar Cascade classifiers
-- 🚨 Privacy alert when more than one face is detected
-- 📸 Webcam integration (can switch between multiple cameras)
-- 📦 Easy to extend with more detection models (e.g., mouth, smile, etc.)
+- Real-time face and eye detection using Haar Cascade classifiers
+- Privacy alert when more than one face is detected
+- Webcam integration (can switch between multiple cameras)
+- Easy to extend with more detection models (e.g., mouth, smile, etc.)
 
 ---
 
